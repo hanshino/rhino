@@ -1,64 +1,37 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# 面試作業
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 1+2 題目
 
-## About Laravel
+程式存放在 `question/one` 的分支
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+[主要邏輯](https://github.com/hanshino/rhino/blob/question/one/app/Services/DailySentenceService.php)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+[測試程式](https://github.com/hanshino/rhino/blob/question/one/tests/Feature/DailySentenceTest.php)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+測試方式:
 
-## Learning Laravel
+```bash
+./vendor/bin/phpunit tests/Feature/DailySentenceTest.php
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 3 題目
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+程式存放在 `question/three` 的分支
 
-## Laravel Sponsors
+[主要邏輯](https://github.com/hanshino/rhino/tree/question/three/app/Services/DailySentence)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+[測試程式](https://github.com/hanshino/rhino/blob/question/three/tests/Feature/DailySentenceTest.php)
 
-### Premium Partners
+### 說明
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+目的：透過呼叫時指定參數來決定要使用的 **每日一句** 的第三方 API
 
-## Contributing
+既然會有兩個第三方 API 就難以保證日後會有更多的 API，為此進行以下設計
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+-   建立 `trait` [DailySentence](https://github.com/hanshino/rhino/blob/question/three/app/Services/DailySentence/DailySentence.php) 固定會使用到對第三方 API 的請求函式。
+-   為各自的第三方 API 建立 `class`，此設計便於後續的擴充，如有新的第三方 API 且使用不同的資料格式，可以建立新的 `method` 對應到新的第三方 API。
+    -   [Itsthisforthat](https://github.com/hanshino/rhino/blob/question/three/app/Services/DailySentence/Itsthisforthat.php)
+    -   [Metaphorpsum](https://github.com/hanshino/rhino/blob/question/three/app/Services/DailySentence/Metaphorpsum.php)
+-   接著建立 `class` [DailySentenceService](https://github.com/hanshino/rhino/blob/question/three/app/Services/DailySentence/DailySentenceService.php) 統一管理所有的第三方 API，並且針對參數來決定要使用的第三方 API。
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+_註：因為這兩個 API 資料格式皆為 string, 所以暫且將此做為標準進行設計_
